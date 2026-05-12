@@ -1,0 +1,27 @@
+{
+  "name": "cyp-product-case-finder",
+  "version": "0.1.0",
+  "description": "Windows desktop tool for finding CYP product references in PowerPoint case files.",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "lint": "node --check src/main/main.js && node --check src/main/preload.js && node --check src/renderer/renderer.js && node --check src/main/services/dbService.js && node --check src/main/services/configService.js && node --check src/main/services/searchService.js && node --check src/main/services/fileOpenService.js && node --check src/main/services/pptScannerService.js && node --check src/main/services/pptTextExtractor.js && node --check src/main/services/indexService.js"
+  },
+  "keywords": [
+    "electron",
+    "sqlite",
+    "powerpoint",
+    "desktop"
+  ],
+  "author": "CYP",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "electron": "^42.0.1"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "fast-xml-parser": "^5.2.5",
+    "sql.js": "^1.13.0"
+  }
+}

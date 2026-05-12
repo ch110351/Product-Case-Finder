@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CYP Product Case Finder</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <div>
+          <h1>CYP Product Case Finder</h1>
+          <p>Find product mentions across indexed PowerPoint case files.</p>
+        </div>
+      </header>
+
+      <section class="toolbar" aria-label="Folder controls">
+        <div class="folder-info">
+          <span class="label">Folder</span>
+          <strong id="folderPath">No folder selected</strong>
+        </div>
+        <div class="toolbar-actions">
+          <button id="selectFolderButton" type="button">Change Folder</button>
+          <button id="rebuildButton" type="button">Rebuild Index</button>
+        </div>
+      </section>
+
+      <section class="progress-panel" aria-label="Scan progress">
+        <div class="progress-meta">
+          <span id="progressText">Scan engine is idle.</span>
+          <span id="progressCount">0 / 0</span>
+        </div>
+        <progress id="scanProgress" value="0" max="100"></progress>
+      </section>
+
+      <section class="search-panel" aria-label="Product search">
+        <label for="searchInput">Search Product</label>
+        <div class="search-row">
+          <input id="searchInput" type="search" placeholder="Enter product name, e.g. CDPS-CS11" />
+          <button id="searchButton" type="button">Search</button>
+        </div>
+      </section>
+
+      <section class="summary" aria-live="polite">
+        <span id="summaryText">Ready. Select a folder or search existing index data.</span>
+      </section>
+
+      <section class="result-section" aria-label="Search results">
+        <div class="result-header">
+          <h2>Results</h2>
+        </div>
+        <div id="resultList" class="result-list">
+          <p class="empty-state">No results yet.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>

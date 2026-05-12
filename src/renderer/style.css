@@ -1,0 +1,267 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f7f6;
+  --panel: #ffffff;
+  --panel-border: #d9e2df;
+  --text: #1f2d2b;
+  --muted: #64736f;
+  --accent: #0b6f63;
+  --accent-dark: #084f47;
+  --danger: #ad2f2f;
+  --shadow: 0 12px 28px rgba(21, 39, 36, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 760px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 600;
+  min-height: 40px;
+  padding: 0 16px;
+}
+
+button:hover {
+  background: var(--accent-dark);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.app-shell {
+  display: grid;
+  gap: 16px;
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: 24px;
+}
+
+.app-header {
+  align-items: center;
+  background: #173b36;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  min-height: 110px;
+  padding: 24px;
+}
+
+.app-header h1 {
+  font-size: 28px;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin: 0 0 8px;
+}
+
+.app-header p {
+  color: #d7e6e2;
+  margin: 0;
+}
+
+.toolbar,
+.progress-panel,
+.search-panel,
+.summary,
+.result-section {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.toolbar {
+  align-items: center;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 16px;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.folder-info {
+  min-width: 0;
+}
+
+.label,
+.search-panel label {
+  color: var(--muted);
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+#folderPath {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progress-panel {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+}
+
+.progress-meta {
+  color: var(--muted);
+  display: flex;
+  font-size: 13px;
+  justify-content: space-between;
+  min-height: 18px;
+}
+
+progress {
+  appearance: none;
+  height: 10px;
+  width: 100%;
+}
+
+progress::-webkit-progress-bar {
+  background: #e5edeb;
+  border-radius: 999px;
+}
+
+progress::-webkit-progress-value {
+  background: var(--accent);
+  border-radius: 999px;
+}
+
+.search-panel {
+  padding: 16px;
+}
+
+.search-row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+input[type="search"] {
+  border: 1px solid #c8d3d0;
+  border-radius: 6px;
+  min-height: 42px;
+  padding: 0 12px;
+  width: 100%;
+}
+
+input[type="search"]:focus {
+  border-color: var(--accent);
+  outline: 2px solid rgba(11, 111, 99, 0.18);
+}
+
+.summary {
+  color: var(--muted);
+  padding: 14px 16px;
+}
+
+.result-section {
+  overflow: hidden;
+}
+
+.result-header {
+  border-bottom: 1px solid var(--panel-border);
+  padding: 14px 16px;
+}
+
+.result-header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.result-list {
+  display: grid;
+  gap: 0;
+}
+
+.ppt-result-group {
+  border-bottom: 1px solid var(--panel-border);
+  padding: 16px;
+}
+
+.ppt-result-group:last-child {
+  border-bottom: 0;
+}
+
+.ppt-result-header {
+  align-items: start;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.result-title {
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+
+.result-meta,
+.result-path,
+.match-text {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 4px 0;
+}
+
+.match-text {
+  color: var(--text);
+}
+
+.slide-match-list {
+  border-left: 3px solid #d9e2df;
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  padding-left: 12px;
+}
+
+.slide-match-item {
+  background: #f8fbfa;
+  border: 1px solid #e1e9e6;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.slide-number {
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.empty-state,
+.error-state {
+  color: var(--muted);
+  margin: 0;
+  padding: 24px 16px;
+}
+
+.error-state {
+  color: var(--danger);
+}
