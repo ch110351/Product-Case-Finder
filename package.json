@@ -1,6 +1,6 @@
 {
   "name": "cyp-product-case-finder",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Windows desktop tool for finding CYP product references in PowerPoint case files.",
   "main": "src/main/main.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "build": {
     "appId": "com.cyp.product-case-finder",
     "productName": "CYP Product Case Finder",
-    "copyright": "Copyright © CYP",
+    "copyright": "Copyright (c) CYP",
     "directories": {
       "output": "dist"
     },
