@@ -5,6 +5,7 @@ const dbService = require('./services/dbService');
 const configService = require('./services/configService');
 const searchService = require('./services/searchService');
 const fileOpenService = require('./services/fileOpenService');
+const productInfoService = require('./services/productInfoService');
 const pptScannerService = require('./services/pptScannerService');
 
 let mainWindow;
@@ -72,6 +73,18 @@ function registerIpcHandlers() {
 
   ipcMain.handle('file:openPpt', async (_event, filePath) => {
     return fileOpenService.openPpt(filePath);
+  });
+
+  ipcMain.handle('product:openInfo', async (_event, productName) => {
+    return productInfoService.openProductInfo(productName);
+  });
+
+  ipcMain.handle('product:openDetailUrl', async (_event, url) => {
+    return productInfoService.openProductDetailUrl(url);
+  });
+
+  ipcMain.handle('product:getSummary', async (_event, productName) => {
+    return productInfoService.getProductSummary(productName);
   });
 
   ipcMain.handle('scan:getStatus', () => {

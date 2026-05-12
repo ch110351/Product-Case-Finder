@@ -3,14 +3,23 @@ const selectFolderButton = document.getElementById('selectFolderButton');
 const rebuildButton = document.getElementById('rebuildButton');
 const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
+const productInfoButton = document.getElementById('productInfoButton');
 const summaryText = document.getElementById('summaryText');
 const resultList = document.getElementById('resultList');
+const productSummaryPanel = document.getElementById('productSummaryPanel');
+const productSummaryTitle = document.getElementById('productSummaryTitle');
+const productSummarySubtitle = document.getElementById('productSummarySubtitle');
+const productSummaryDescription = document.getElementById('productSummaryDescription');
+const productSummaryFeatures = document.getElementById('productSummaryFeatures');
+const productSummaryStatus = document.getElementById('productSummaryStatus');
+const productSummaryOpenButton = document.getElementById('productSummaryOpenButton');
 const progressText = document.getElementById('progressText');
 const progressCount = document.getElementById('progressCount');
 const scanProgress = document.getElementById('scanProgress');
 
 let currentFolderPath = '';
 let statusTimer = null;
+let currentProductDetailUrl = '';
 
 function setSummary(message) {
   summaryText.textContent = message;
@@ -46,6 +55,45 @@ function renderError(message) {
   error.className = 'error-state';
   error.textContent = message;
   resultList.appendChild(error);
+}
+
+function renderProductSummaryLoading(productName) {
+  currentProductDetailUrl = '';
+  productSummaryPanel.hidden = false;
+  productSummaryTitle.textContent = productName;
+  productSummarySubtitle.textContent = '';
+  productSummaryDescription.textContent = '';
+  productSummaryFeatures.innerHTML = '';
+  productSummaryStatus.textContent = 'Loading official product information...';
+  productSummaryOpenButton.disabled = true;
+}
+
+function renderProductSummary(response) {
+  productSummaryPanel.hidden = false;
+  productSummaryFeatures.innerHTML = '';
+
+  if (!response.ok) {
+    currentProductDetailUrl = '';
+    productSummarySubtitle.textContent = '';
+    productSummaryDescription.textContent = '';
+    productSummaryStatus.textContent = response.error || 'No official product information found.';
+    productSummaryOpenButton.disabled = true;
+    return;
+  }
+
+  const summary = response.summary;
+  currentProductDetailUrl = summary.sourceUrl || '';
+  productSummaryTitle.textContent = summary.productName || searchInput.value.trim();
+  productSummarySubtitle.textContent = summary.subtitle || '';
+  productSummaryDescription.textContent = summary.description || '';
+  productSummaryStatus.textContent = summary.sourceUrl ? `Source: ${summary.sourceUrl}` : '';
+  productSummaryOpenButton.disabled = !summary.sourceUrl;
+
+  for (const feature of summary.features || []) {
+    const item = document.createElement('li');
+    item.textContent = feature;
+    productSummaryFeatures.appendChild(item);
+  }
 }
 
 function renderResults(results) {
@@ -207,6 +255,7 @@ function setBusyState(isBusy) {
   selectFolderButton.disabled = isBusy;
   rebuildButton.disabled = isBusy;
   searchButton.disabled = isBusy;
+  productInfoButton.disabled = isBusy;
   searchInput.disabled = isBusy;
 }
 
@@ -234,8 +283,15 @@ async function search() {
   }
 
   searchButton.disabled = true;
+  renderProductSummaryLoading(keyword);
+
   try {
-    const response = await window.cypApi.search(keyword);
+    const [response, productSummaryResponse] = await Promise.all([
+      window.cypApi.search(keyword),
+      window.cypApi.getProductSummary(keyword)
+    ]);
+
+    renderProductSummary(productSummaryResponse);
     renderResults(response.results);
     const pptCount = groupResultsByPpt(response.results).length;
     setSummary(`Found ${response.total} slide result(s) in ${pptCount} PPT file(s) for "${keyword}".`);
@@ -247,9 +303,56 @@ async function search() {
   }
 }
 
+async function openProductInfo() {
+  const keyword = searchInput.value.trim();
+
+  if (!keyword) {
+    setSummary('Please enter a product name before opening product information.');
+    searchInput.focus();
+    return;
+  }
+
+  productInfoButton.disabled = true;
+
+  try {
+    const response = await window.cypApi.openProductInfo(keyword);
+
+    if (!response.ok) {
+      setSummary(response.error || 'Unable to open product information.');
+      return;
+    }
+
+    setSummary(`Opened CYP product information search for "${keyword}".`);
+  } catch (error) {
+    setSummary(`Unable to open product information: ${error.message}`);
+  } finally {
+    productInfoButton.disabled = false;
+  }
+}
+
+async function openProductDetailFromSummary() {
+  if (!currentProductDetailUrl) {
+    return;
+  }
+
+  productSummaryOpenButton.disabled = true;
+
+  try {
+    const response = await window.cypApi.openProductDetailUrl(currentProductDetailUrl);
+
+    if (!response.ok) {
+      setSummary(response.error || 'Unable to open product information.');
+    }
+  } finally {
+    productSummaryOpenButton.disabled = false;
+  }
+}
+
 selectFolderButton.addEventListener('click', selectFolder);
 rebuildButton.addEventListener('click', rebuildIndex);
 searchButton.addEventListener('click', search);
+productInfoButton.addEventListener('click', openProductInfo);
+productSummaryOpenButton.addEventListener('click', openProductDetailFromSummary);
 searchInput.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     search();

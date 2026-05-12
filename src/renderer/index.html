@@ -39,6 +39,20 @@
         <div class="search-row">
           <input id="searchInput" type="search" placeholder="Enter product name, e.g. CDPS-CS11" />
           <button id="searchButton" type="button">Search</button>
+          <button id="productInfoButton" type="button" class="secondary-button">Product Info</button>
+        </div>
+        <div id="productSummaryPanel" class="product-summary-panel" hidden>
+          <div class="product-summary-header">
+            <div>
+              <span class="label">Official Product Information</span>
+              <h2 id="productSummaryTitle"></h2>
+              <p id="productSummarySubtitle"></p>
+            </div>
+            <button id="productSummaryOpenButton" type="button" class="secondary-button">Open Detail</button>
+          </div>
+          <p id="productSummaryDescription"></p>
+          <ul id="productSummaryFeatures"></ul>
+          <p id="productSummaryStatus" class="product-summary-status"></p>
         </div>
       </section>
 
