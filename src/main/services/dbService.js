@@ -12,9 +12,19 @@ function getDatabasePath() {
   return path.join(dbDir, 'product-case-finder.sqlite');
 }
 
+function getSqlWasmPath() {
+  if (app.isPackaged) {
+    return path.join(process.resourcesPath, 'sql-wasm.wasm');
+  }
+
+  return path.join(__dirname, '../../../node_modules/sql.js/dist/sql-wasm.wasm');
+}
+
 async function initialize() {
   databasePath = getDatabasePath();
-  const SQL = await initSqlJs();
+  const SQL = await initSqlJs({
+    locateFile: () => getSqlWasmPath()
+  });
   const databaseFile = fs.existsSync(databasePath) ? fs.readFileSync(databasePath) : null;
 
   db = databaseFile ? new SQL.Database(databaseFile) : new SQL.Database();

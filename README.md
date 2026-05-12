@@ -19,6 +19,15 @@ npm.cmd start
 
 Use `npm.cmd` on Windows PowerShell if script execution policy blocks `npm.ps1`.
 
+## Build Windows Installer
+
+```powershell
+npm.cmd install
+npm.cmd run dist
+```
+
+The Windows installer is generated in the `dist/` folder. Run the `.exe` installer to install `CYP Product Case Finder`.
+
 ## Current MVP Flow
 
 1. Launch the app.
